@@ -7,17 +7,12 @@
     },
     "package": {
         "productName": "PasteStore",
-        "version": "0.0.2-alpha"
+        "version": "0.0.3-alpha"
     },
     "tauri": {
         "allowlist": {
             "all": false,
-            "globalShortcut": { "all": true },
-            "clipboard": {
-                "all": true,
-                "writeText": true,
-                "readText": true
-            }
+            "globalShortcut": { "all": true }
         },
         "windows": [
             {
@@ -55,7 +50,9 @@
         },
         "updater": {
             "active": true,
-            "endpoints": ["https://releases.myapp.com/{{target}}/{{arch}}/{{current_version}}"],
+            "endpoints": [
+                "https://raw.githubusercontent.com/cooperaustinj/pastestore/main/release.json"
+            ],
             "dialog": true,
             "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDc2RTdGM0NCN0MzQ0M2MzAKUldRd3hqeDh5L1BuZHAxT0s4OUg3ZnpUSkJCT0JiSlhlaWZMRzk1UHo2elNPTnkrR0h6d1BXM2MK"
         }

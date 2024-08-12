@@ -1,4 +1,5 @@
 import { MantineProvider } from '@mantine/core'
+import { emit } from '@tauri-apps/api/event'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 

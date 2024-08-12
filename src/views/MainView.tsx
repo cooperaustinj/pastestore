@@ -28,7 +28,7 @@ import {
     IconSearch,
     IconX,
 } from '@tabler/icons-react'
-import { listen } from '@tauri-apps/api/event'
+import { emit, listen } from '@tauri-apps/api/event'
 import camelcaseKeys from 'camelcase-keys'
 import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
