@@ -105,7 +105,14 @@ export function MainView() {
 
     useEffect(() => {
         const checkForUpdatesListener = listen('check_for_updates', async () => {
-            await checkUpdate()
+            async function check() {
+                return await checkUpdate()
+            }
+
+            const update = await check()
+            if (!update.shouldUpdate) {
+                await message("You're already up to date!", 'Up to Date')
+            }
         })
 
         const unlistenOpened = listen('window-opened', () => {
