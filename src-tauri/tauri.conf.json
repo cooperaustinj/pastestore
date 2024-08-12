@@ -12,7 +12,11 @@
     "tauri": {
         "allowlist": {
             "all": false,
-            "globalShortcut": { "all": true }
+            "globalShortcut": { "all": true },
+            "dialog": {
+                "ask": true,
+                "message": true
+            }
         },
         "windows": [
             {

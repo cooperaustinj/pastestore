@@ -13,9 +13,12 @@ fn greet(name: &str) -> String {
 
 fn main() {
     let quit = CustomMenuItem::new("quit".to_string(), "Quit").accelerator("Cmd+Q");
+    let check_for_updates =
+        CustomMenuItem::new("check_for_updates".to_string(), "Check for a newer version");
     let version = CustomMenuItem::new("version".to_string(), "0.0.4-alpha").disabled();
     let system_tray_menu = SystemTrayMenu::new()
         .add_item(version)
+        .add_item(check_for_updates)
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(quit);
 
@@ -90,6 +93,9 @@ fn main() {
                 SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
                     "quit" => {
                         std::process::exit(0);
+                    }
+                    "check_for_updates" => {
+                        app.emit_all("check_for_updates", "").unwrap();
                     }
                     _ => {}
                 },

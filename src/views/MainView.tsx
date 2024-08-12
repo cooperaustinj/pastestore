@@ -28,7 +28,9 @@ import {
     IconSearch,
     IconX,
 } from '@tabler/icons-react'
+import { ask, message } from '@tauri-apps/api/dialog'
 import { listen } from '@tauri-apps/api/event'
+import { checkUpdate, installUpdate } from '@tauri-apps/api/updater'
 import camelcaseKeys from 'camelcase-keys'
 import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -102,19 +104,22 @@ export function MainView() {
     useHotkeys([['mod+f', () => searchRef.current?.select()]])
 
     useEffect(() => {
+        const checkForUpdatesListener = listen('check_for_updates', async () => {
+            await checkUpdate()
+        })
+
         const unlistenOpened = listen('window-opened', () => {
             searchRef.current?.select()
         })
 
-        const unlistenClosed = listen('window-closed', () => {
-            // setValue('')
-        })
+        const unlistenClosed = listen('window-closed', () => {})
 
         searchRef.current?.select()
 
         return () => {
             unlistenOpened.then(f => f())
             unlistenClosed.then(f => f())
+            checkForUpdatesListener.then(f => f())
         }
     }, [])
 
