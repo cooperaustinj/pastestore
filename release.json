@@ -4,7 +4,7 @@
     "pub_date": "2024-08-13T00:00:00Z",
     "platforms": {
         "darwin-aarch64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRd3hqeDh5L1BuZGwyWW9oZlNkRWhNRWhZRS9sVlhJcEwwdTFlRVVzUzVjZmJPUXlucWFENDlRUHVxYnhTckZ3cnBJNno0R1FYaUFZYzJqZlJDUW9MYjh4WlovcE5Ca0FJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzIzNDUzNDY4CWZpbGU6UGFzdGVTdG9yZS5hcHAudGFyLmd6ClcxdHNRNkJNWjkzUFNEVW1JODB2SytPaEtxN1pFem5EcVFMcS9KVTh2R0ZtMWpEME1iWXgrMnRhdnJCekhpR1dXUENjVXpKcWUzYVNpT3F1dUpuNUJ3PT0K",
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRd3hqeDh5L1BuZHFYV0xXQmhxaXVIZlh2WXpwVUovbEgyZVFSbGkzNUQ3Y1BWblBvK2IzQkRVN1lZVTNQY0cxOHZheXp1cHpRZkdVeEZqSkswNWZDcS9pZkNmNmJSWlFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzIzNDUzNjE0CWZpbGU6UGFzdGVTdG9yZS5hcHAudGFyLmd6ClNlc2JXbmozQXh5L0tuSjJWUjZ0S3VCaE11MGxxekYvNXpJZGEyZVg2YVVsL2NQUWZJVWVYMGNFZzVReVp6VG96ek9RaTkzWHkybXpSTTNidlRSYkJ3PT0K",
             "url": "https://github.com/cooperaustinj/pastestore/releases/download/0.0.5-alpha/PasteStore.app.tar.gz"
         }
     }
