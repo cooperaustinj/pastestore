@@ -7,7 +7,7 @@
     },
     "package": {
         "productName": "PasteStore",
-        "version": "0.0.1-alpha"
+        "version": "0.0.2-alpha"
     },
     "tauri": {
         "allowlist": {
@@ -57,7 +57,7 @@
             "active": true,
             "endpoints": ["https://releases.myapp.com/{{target}}/{{arch}}/{{current_version}}"],
             "dialog": true,
-            "pubkey": "YOUR_UPDATER_SIGNATURE_PUBKEY_HERE"
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDc2RTdGM0NCN0MzQ0M2MzAKUldRd3hqeDh5L1BuZHAxT0s4OUg3ZnpUSkJCT0JiSlhlaWZMRzk1UHo2elNPTnkrR0h6d1BXM2MK"
         }
     }
 }
