@@ -15,7 +15,7 @@ fn main() {
     let quit = CustomMenuItem::new("quit".to_string(), "Quit").accelerator("Cmd+Q");
     let check_for_updates =
         CustomMenuItem::new("check_for_updates".to_string(), "Check for a newer version");
-    let version = CustomMenuItem::new("version".to_string(), "0.0.4-alpha").disabled();
+    let version = CustomMenuItem::new("version".to_string(), "0.0.5-alpha").disabled();
     let system_tray_menu = SystemTrayMenu::new()
         .add_item(version)
         .add_item(check_for_updates)
