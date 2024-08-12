@@ -1,4 +1,4 @@
-<center><img src="./src-tauri/icons/newer.png" height="300"></center>
+<p align="center"><img src="./src-tauri/icons/newer.png" height="300"></p>
 
 # PasteStore
 
