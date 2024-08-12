@@ -1,6 +1,7 @@
 use tauri::GlobalShortcutManager;
 use tauri::{
     ActivationPolicy, CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu,
+    SystemTrayMenuItem,
 };
 use tauri_plugin_positioner::{Position, WindowExt};
 use tauri_plugin_sql::{Migration, MigrationKind};
@@ -12,7 +13,11 @@ fn greet(name: &str) -> String {
 
 fn main() {
     let quit = CustomMenuItem::new("quit".to_string(), "Quit").accelerator("Cmd+Q");
-    let system_tray_menu = SystemTrayMenu::new().add_item(quit);
+    let version = CustomMenuItem::new("version".to_string(), "0.0.2-alpha").disabled();
+    let system_tray_menu = SystemTrayMenu::new()
+        .add_item(version)
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(quit);
 
     let migrations = vec![Migration {
         version: 1,
