@@ -1,0 +1,63 @@
+{
+    "build": {
+        "beforeDevCommand": "bun run dev",
+        "beforeBuildCommand": "bun run build",
+        "devPath": "http://localhost:1420",
+        "distDir": "../dist"
+    },
+    "package": {
+        "productName": "PasteStore",
+        "version": "0.0.1-alpha"
+    },
+    "tauri": {
+        "allowlist": {
+            "all": false,
+            "globalShortcut": { "all": true },
+            "clipboard": {
+                "all": true,
+                "writeText": true,
+                "readText": true
+            }
+        },
+        "windows": [
+            {
+                "fullscreen": false,
+                "height": 800,
+                "resizable": false,
+                "title": "PasteStore",
+                "width": 500,
+                "visible": false,
+                "hiddenTitle": true,
+                "decorations": false,
+                "focus": false,
+                "transparent": true
+            }
+        ],
+        "security": {
+            "csp": null
+        },
+        "bundle": {
+            "active": true,
+            "targets": "all",
+            "identifier": "dev.austincooper.pastestore.dev",
+            "icon": [
+                "icons/32x32.png",
+                "icons/128x128.png",
+                "icons/128x128@2x.png",
+                "icons/icon.icns",
+                "icons/icon.ico"
+            ]
+        },
+        "systemTray": {
+            "iconPath": "icons/clipboard-database.png",
+            "iconAsTemplate": true,
+            "menuOnLeftClick": false
+        },
+        "updater": {
+            "active": true,
+            "endpoints": ["https://releases.myapp.com/{{target}}/{{arch}}/{{current_version}}"],
+            "dialog": true,
+            "pubkey": "YOUR_UPDATER_SIGNATURE_PUBKEY_HERE"
+        }
+    }
+}
