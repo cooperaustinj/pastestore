@@ -13,7 +13,7 @@ fn greet(name: &str) -> String {
 
 fn main() {
     let quit = CustomMenuItem::new("quit".to_string(), "Quit").accelerator("Cmd+Q");
-    let version = CustomMenuItem::new("version".to_string(), "0.0.3-alpha").disabled();
+    let version = CustomMenuItem::new("version".to_string(), "0.0.4-alpha").disabled();
     let system_tray_menu = SystemTrayMenu::new()
         .add_item(version)
         .add_native_item(SystemTrayMenuItem::Separator)
