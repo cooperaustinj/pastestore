@@ -11,7 +11,7 @@ The binary is not signed because that costs $99/yr. Running `xattr -cr /Applicat
 # Creating a Release
 
 1. Get all changes into `main`
-2. Make sure to change the version number in `tauri.conf.json`
+2. Make sure to change the version number in `tauri.conf.json` and `main.rs`
 3. Run `bun run tauri:release` with a `.env` file that has `TAURI_PRIVATE_KEY`
 4. Make sure to enter the password when prompted or the signature will not be updated
 5. Create a new GitHub release with the new `dmg` file and `PasteStore.app.tar.gz `
