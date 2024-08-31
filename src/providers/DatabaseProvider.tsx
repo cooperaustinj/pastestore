@@ -15,7 +15,7 @@ export function useDatabase(): Database {
     return context
 }
 
-interface DatabaseProviderProps {
+type DatabaseProviderProps = {
     children: ReactNode
 }
 

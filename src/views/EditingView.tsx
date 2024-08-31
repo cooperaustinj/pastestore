@@ -1,4 +1,6 @@
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
 import {
+    Badge,
     Box,
     Button,
     Container,
@@ -6,6 +8,7 @@ import {
     Paper,
     Stack,
     TagsInput,
+    Text,
     Textarea,
     useMantineTheme,
 } from '@mantine/core'
@@ -13,18 +16,21 @@ import { getHotkeyHandler } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 import { IconHash, IconSparkles } from '@tabler/icons-react'
 import React, { ClipboardEvent, useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { DropResult } from 'react-beautiful-dnd'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useDatabase } from '~/providers/DatabaseProvider'
-import { MainViewRoute } from '~/views/MainView'
+import { tagColor } from '~/utils/tag-colors'
+import { MainViewRoute, Paste } from '~/views/MainView'
 
-export const CreatingViewRoute = {
-    path: '/create',
-    element: <CreatingView />,
+export const EditingViewRoute = {
+    path: '/edit/:id',
+    element: <EditingView />,
 }
 
-export function CreatingView() {
+export function EditingView() {
     const navigate = useNavigate()
+    const { id } = useParams<{ id: string }>()
     const [pasteInputValue, setPasteInputValue] = useState<string>('')
     const [tagsInputValue, setTagsInputValue] = useState<string[]>([])
     const [tagSearchValue, setTagSearchValue] = useState('')
@@ -34,33 +40,41 @@ export function CreatingView() {
     const db = useDatabase()
 
     useEffect(() => {
-        async function loadTags() {
-            const rows = await db.select<{ name: string }[]>(
-                'select name from tag order by name asc;',
-            )
-            setTagSuggestions(rows.map(r => r.name))
-        }
-        loadTags()
-    }, [db])
+        async function loadPasteAndTags() {
+            if (!id) return
 
-    const savePaste = useCallback(
-        async (tags: string[]) => {
-            const rows = await db.select<{ id: number }[]>(
-                'INSERT INTO paste (value) VALUES ($1) returning id;',
-                [pasteInputValue.trim()],
-            )
+            const pasteRow = await db.select<Paste[]>('SELECT * FROM paste WHERE id = $1;', [id])
 
-            if (!rows || rows.length === 0) {
-                notifications.show({
-                    title: 'Error',
-                    message: 'Failed to save paste.',
-                    color: 'red',
-                })
-                navigate(MainViewRoute.path)
-                return
+            if (pasteRow && pasteRow.length > 0) {
+                const paste = pasteRow[0]
+                setPasteInputValue(paste.value)
+
+                const tagRows = await db.select<{ name: string }[]>(
+                    'SELECT t.name FROM tag t JOIN paste_tag pt ON t.id = pt.tag_id WHERE pt.paste_id = $1 ORDER BY pt.seq_id;',
+                    [id],
+                )
+                setTagsInputValue(tagRows.map(r => r.name))
             }
 
-            const pasteId = rows[0].id
+            const allTagRows = await db.select<{ name: string }[]>(
+                'SELECT name FROM tag ORDER BY name ASC;',
+            )
+            setTagSuggestions(allTagRows.map(r => r.name))
+        }
+        loadPasteAndTags()
+    }, [db, id])
+
+    const updatePaste = useCallback(
+        async (tags: string[]) => {
+            if (!id) return
+
+            await db.execute('UPDATE paste SET value = $1 WHERE id = $2;', [
+                pasteInputValue.trim(),
+                id,
+            ])
+
+            await db.execute('DELETE FROM paste_tag WHERE paste_id = $1;', [id])
+
             const tagSequence = tags.map((t, index) => ({
                 tag: t.trim().toLowerCase(),
                 seqId: index,
@@ -72,19 +86,18 @@ export function CreatingView() {
                 )
                 await db.execute(
                     'INSERT INTO paste_tag (paste_id, tag_id, seq_id) VALUES ($1, (SELECT id FROM tag WHERE name = $2), $3);',
-                    [pasteId, tag, seqId],
+                    [id, tag, seqId],
                 )
             }
 
             notifications.show({
                 title: 'Success',
-                message: 'Paste created successfully.',
+                message: 'Paste updated successfully.',
                 color: 'green',
             })
-
             navigate(MainViewRoute.path)
         },
-        [db, navigate, pasteInputValue],
+        [db, navigate, pasteInputValue, id],
     )
 
     const handlePaste = useCallback(async (event: ClipboardEvent<HTMLTextAreaElement>) => {
@@ -110,6 +123,18 @@ export function CreatingView() {
         tagsRef.current?.focus()
     }, [])
 
+    const onDragEnd = (result: DropResult) => {
+        if (!result.destination) {
+            return
+        }
+
+        const newTags = Array.from(tagsInputValue)
+        const [reorderedItem] = newTags.splice(result.source.index, 1)
+        newTags.splice(result.destination.index, 0, reorderedItem)
+
+        setTagsInputValue(newTags)
+    }
+
     return (
         <>
             <Box
@@ -134,10 +159,10 @@ export function CreatingView() {
                         <Button
                             color="violet"
                             disabled={!pasteInputValue}
-                            onClick={() => savePaste(tagsInputValue)}
+                            onClick={() => updatePaste(tagsInputValue)}
                             leftSection={<IconSparkles size={18} />}
                         >
-                            Create
+                            Update
                         </Button>
                         <Button
                             color="gray"
@@ -156,7 +181,7 @@ export function CreatingView() {
                         [
                             'mod+Enter',
                             () => {
-                                savePaste([
+                                updatePaste([
                                     ...tagsInputValue,
                                     ...(tagSearchValue ? [tagSearchValue.trim()] : []),
                                 ])
@@ -179,7 +204,6 @@ export function CreatingView() {
                         ref={tagsRef}
                         label="Tags"
                         placeholder="Pick tag from list"
-                        clearable
                         maxTags={8}
                         value={tagsInputValue}
                         searchValue={tagSearchValue}
@@ -192,6 +216,42 @@ export function CreatingView() {
                         leftSection={<IconHash size={18} />}
                         leftSectionPointerEvents="none"
                     />
+                    <Text size="sm" c="dimmed">
+                        Drag to reorder tags.
+                    </Text>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="tags" direction="vertical">
+                            {provided => (
+                                <Stack
+                                    gap="xs"
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {tagsInputValue.map((tag, index) => (
+                                        <Draggable key={tag} draggableId={tag} index={index}>
+                                            {provided => (
+                                                <Badge
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    size="lg"
+                                                    variant="outline"
+                                                    color={
+                                                        index === 0
+                                                            ? tagColor(tag)
+                                                            : theme.colors.gray[4]
+                                                    }
+                                                >
+                                                    {tag}
+                                                </Badge>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </Stack>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </Stack>
             </Container>
         </>

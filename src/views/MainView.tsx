@@ -7,15 +7,10 @@ import {
     Container,
     CopyButton,
     Flex,
-    Grid,
     Group,
-    HoverCard,
-    lighten,
-    MantineColor,
     Paper,
     ScrollArea,
     Stack,
-    Text,
     TextInput,
     useMantineTheme,
 } from '@mantine/core'
@@ -24,58 +19,22 @@ import {
     IconCheck,
     IconCirclePlus,
     IconCopy,
-    IconInfoCircle,
+    IconPencil,
     IconSearch,
     IconX,
 } from '@tabler/icons-react'
-import { ask, message } from '@tauri-apps/api/dialog'
+import { message } from '@tauri-apps/api/dialog'
 import { listen } from '@tauri-apps/api/event'
-import { checkUpdate, installUpdate } from '@tauri-apps/api/updater'
+import { checkUpdate } from '@tauri-apps/api/updater'
 import camelcaseKeys from 'camelcase-keys'
-import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router-dom'
 
 import { DeletePasteButton } from '~/components/delete-paste-button'
 import { useDatabase } from '~/providers/DatabaseProvider'
-import { theme } from '~/theme'
+import { tagColor } from '~/utils/tag-colors'
 import { CreatingViewRoute } from '~/views/CreatingView'
-
-const TAG_COLORS = [
-    'red',
-    'pink',
-    'grape',
-    'violet',
-    'indigo',
-    'blue',
-    'cyan',
-    'teal',
-    'green',
-    'lime',
-    'yellow',
-    'orange',
-] as const
-
-function fnv1a(str: string): number {
-    let hash = 2166136261
-    for (let i = 0; i < str.length; i++) {
-        hash ^= str.charCodeAt(i)
-        hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24)
-    }
-    return hash >>> 0
-}
-
-function tagColor(str: string): MantineColor {
-    const colors = theme.colors
-
-    const hash = fnv1a(str)
-
-    const colorIndex = Math.abs(hash) % TAG_COLORS.length
-    const colorName = TAG_COLORS[colorIndex]
-    const color = lighten(colors[colorName][4], 0.1)
-
-    return color
-}
+import { EditingViewRoute } from '~/views/EditingView'
 
 export const MainViewRoute = {
     path: '/',
@@ -293,7 +252,6 @@ export function MainView() {
                                         {paste.tags.map((t, i) => (
                                             <Badge
                                                 className="selectable"
-                                                fs="italic"
                                                 key={`${paste.id}-${t}`}
                                                 variant="outline"
                                                 color={i === 0 ? tagColor(t) : theme.colors.gray[4]}
@@ -305,7 +263,7 @@ export function MainView() {
                                         ))}
                                     </Flex>
                                 </ScrollArea>
-                                <HoverCard
+                                {/* <HoverCard
                                     width={310}
                                     shadow="md"
                                     position="bottom"
@@ -338,8 +296,25 @@ export function MainView() {
                                             </Grid.Col>
                                         </Grid>
                                     </HoverCard.Dropdown>
-                                </HoverCard>
-                                <DeletePasteButton paste={paste} afterDelete={loadPastes} />
+                                </HoverCard> */}
+                                <Group gap={0}>
+                                    <ActionIcon
+                                        color="gray"
+                                        variant="subtle"
+                                        size="lg"
+                                        onClick={() => {
+                                            navigate(
+                                                generatePath(EditingViewRoute.path, {
+                                                    id: paste.id,
+                                                }),
+                                            )
+                                        }}
+                                        style={{ marinRight: 0 }}
+                                    >
+                                        <IconPencil size={18} />
+                                    </ActionIcon>
+                                    <DeletePasteButton paste={paste} afterDelete={loadPastes} />
+                                </Group>
                             </Flex>
                             <Code
                                 block

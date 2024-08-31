@@ -24,6 +24,11 @@
     user-select: none;
 }
 
+#app-box::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 0px;
+}
+
 input,
 textarea,
 pre,

@@ -11,7 +11,7 @@ function App() {
     return (
         <>
             <Box
-                id="top-box"
+                id="app-box"
                 h="calc(100vh - 2px)"
                 style={{ overflowX: 'hidden', overflowY: 'auto' }}
                 p={0}
