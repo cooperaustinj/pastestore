@@ -1,11 +1,11 @@
 {
-    "version": "0.0.6-alpha",
-    "notes": "Add update check menu item",
-    "pub_date": "2024-08-13T00:00:00Z",
+    "version": "0.0.7-alpha",
+    "notes": "Allow editing of pastes",
+    "pub_date": "2024-08-30T00:00:00Z",
     "platforms": {
         "darwin-aarch64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRd3hqeDh5L1BuZGc1UCtGTncxbnZsNlpxdE51QzhhUHRPMmhyS1BBNFQ1OUtZMC8zM05zbUltMHZsckFEamRHYzRMaWprcWpGcWRINkFGUDA2VlRjVXNlaFhmdGlZZEFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzIzNDUzODg5CWZpbGU6UGFzdGVTdG9yZS5hcHAudGFyLmd6Ci80ME9hUVhobmJPMFVQZEdsYmxNVWwzcmUyZjZqTmwwN004Tm1uTzVPdlMvRmNCMkVOUlhhQVk2b08rWUs1M1c3SzJwUWlxWHk3ZEJTUEs0TzVmakF3PT0K",
-            "url": "https://github.com/cooperaustinj/pastestore/releases/download/0.0.6-alpha/PasteStore.app.tar.gz"
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRd3hqeDh5L1BuZGxxK3lrdjd4UERNZWlIY2JjRTZ4Rk4wcnhCdmZSakZtbldqVW5jdmFESXI3dHgvaHFzOXgwRUxSSk4wTmxJMUNuSXZFTzhoUmtEenNYYVFkbVhySmdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzI1MDgzMTMzCWZpbGU6UGFzdGVTdG9yZS5hcHAudGFyLmd6CjRTRE9VYVpnbkkzZGErWFJtazRUcXhBam1mam9nRHpGekN1eGJqSXRuVzQreVRQdW1wdXNOSGRuSExiQ292SmNpMEdueUVLL0Y2QzdOZFp6OWVxK0JBPT0K",
+            "url": "https://github.com/cooperaustinj/pastestore/releases/download/0.0.7-alpha/PasteStore.app.tar.gz"
         }
     }
 }
